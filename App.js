@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Button, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 
 export default function App() {
   const [enteredGoalText, setEnteredGoalText] = useState("");
@@ -10,7 +18,10 @@ export default function App() {
   }
 
   function addGoalHandler() {
-    setCourseGoals((currentCourseGoals) => [...currentCourseGoals,enteredGoalText]);
+    setCourseGoals((currentCourseGoals) => [
+      ...currentCourseGoals,
+      { text: enteredGoalText, id: Math.random().toString() },
+    ]);
   }
 
   return (
@@ -24,13 +35,28 @@ export default function App() {
         <Button title="Add Goal" onPress={addGoalHandler} />
       </View>
       <View style={styles.goalsContainer}>
-        <ScrollView>
+        {/* scrollview renders all its content at a time, so FlatList is preferred for lazy loading of list-items */}
+        {/* <ScrollView>
         {courseGoals.map((goal) => (
           <View style={styles.goalItem} key={goal}>
             <Text style={styles.goalText}>{goal}</Text>
           </View>
         ))}
-        </ScrollView>
+        </ScrollView> */}
+        {/* don't need a key extractor if the Item contains a 'key' property, so this property will be selected as key automatically */}
+        <FlatList
+          data={courseGoals}
+          renderItem={(itemData) => {
+            return (
+              <View style={styles.goalItem}>
+                <Text style={styles.goalText}>{itemData.item.text}</Text>
+              </View>
+            );
+          }}
+          keyExtractor={(item, index) => {
+            return item.id;
+          }}
+        />
       </View>
     </View>
   );
