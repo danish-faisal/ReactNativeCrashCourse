@@ -1,10 +1,5 @@
 import { useState } from "react";
-import {
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { FlatList, ScrollView, StyleSheet, View } from "react-native";
 import GoalInput from "./components/GoalInput";
 import GoalItem from "./components/GoalItem";
 
@@ -16,6 +11,10 @@ export default function App() {
       ...currentCourseGoals,
       { text: enteredGoalText, id: Math.random().toString() },
     ]);
+  }
+
+  function deleteGoalHandler() {
+    console.log("DELETE");
   }
 
   return (
@@ -34,7 +33,12 @@ export default function App() {
         <FlatList
           data={courseGoals}
           renderItem={(itemData) => {
-            return <GoalItem text={itemData.item.text} />;
+            return (
+              <GoalItem
+                text={itemData.item.text}
+                onDeleteItem={deleteGoalHandler}
+              />
+            );
           }}
           keyExtractor={(item, index) => {
             return item.id;
