@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { FlatList, ScrollView, StyleSheet, View } from "react-native";
+import { Button, FlatList, ScrollView, StyleSheet, View } from "react-native";
 import GoalInput from "./components/GoalInput";
 import GoalItem from "./components/GoalItem";
 
 export default function App() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [courseGoals, setCourseGoals] = useState([]);
 
   function addGoalHandler(enteredGoalText) {
@@ -19,9 +20,18 @@ export default function App() {
     });
   }
 
+  function startAddGoalHandler() {
+    setIsModalVisible(true);
+  }
+
   return (
     <View style={styles.appContainer}>
-      <GoalInput onAddGoal={addGoalHandler} />
+      <Button
+        title="Add New Goal"
+        color="#5e0acc"
+        onPress={startAddGoalHandler}
+      />
+      <GoalInput visible={isModalVisible} onAddGoal={addGoalHandler} />
       <View style={styles.goalsContainer}>
         {/* scrollview renders all its content at a time, so FlatList is preferred for lazy loading of list-items */}
         {/* <ScrollView>
