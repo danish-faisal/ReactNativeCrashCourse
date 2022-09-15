@@ -7,21 +7,26 @@ export default function App() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [courseGoals, setCourseGoals] = useState([]);
 
+  function startAddGoalHandler() {
+    setIsModalVisible(true);
+  }
+
+  function endAddGoalHandler() {
+    setIsModalVisible(false);
+  }
+
   function addGoalHandler(enteredGoalText) {
     setCourseGoals((currentCourseGoals) => [
       ...currentCourseGoals,
       { text: enteredGoalText, id: Math.random().toString() },
     ]);
+    endAddGoalHandler();
   }
 
   function deleteGoalHandler(id) {
     setCourseGoals((currentCourseGoals) => {
       return currentCourseGoals.filter((goal) => goal.id !== id);
     });
-  }
-
-  function startAddGoalHandler() {
-    setIsModalVisible(true);
   }
 
   return (
@@ -31,7 +36,11 @@ export default function App() {
         color="#5e0acc"
         onPress={startAddGoalHandler}
       />
-      <GoalInput visible={isModalVisible} onAddGoal={addGoalHandler} />
+      <GoalInput
+        visible={isModalVisible}
+        onAddGoal={addGoalHandler}
+        onCancel={endAddGoalHandler}
+      />
       <View style={styles.goalsContainer}>
         {/* scrollview renders all its content at a time, so FlatList is preferred for lazy loading of list-items */}
         {/* <ScrollView>
