@@ -85,3 +85,7 @@ const styles = StyleSheet.create({
     flex: 5,
   },
 });
+
+// steps to build apk
+// https://docs.expo.dev/build/setup/
+// https://docs.expo.dev/build-reference/apk/
